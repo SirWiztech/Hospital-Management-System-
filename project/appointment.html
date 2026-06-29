@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vitalis HMS — Book an Appointment">
+    <meta name="theme-color" content="#7A9CB3">
+    <title>Vitalis — Book Appointment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='%237A9CB3'/><path d='M10 18h4l2-6 3 12 2-6h5' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+</head>
+<body>
+    <header class="page-header">
+        <a href="index.html" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+            </svg>
+            Home
+        </a>
+        <h1>Book an Appointment</h1>
+    </header>
+
+    <div class="page-content">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Appointment Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Patient Full Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your full name">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-input" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select class="form-input">
+                                <option value="">Select a department</option>
+                                <option>Cardiology</option>
+                                <option>Neurology</option>
+                                <option>Orthopedics</option>
+                                <option>Pediatrics</option>
+                                <option>Radiology</option>
+                                <option>General Practice</option>
+                                <option>Emergency</option>
+                                <option>Dermatology</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Doctor</label>
+                            <select class="form-input">
+                                <option value="">Any available doctor</option>
+                                <option>Dr. Sarah Chen</option>
+                                <option>Dr. James Park</option>
+                                <option>Dr. Maria Fernandez</option>
+                                <option>Dr. David Okafor</option>
+                                <option>Dr. Emily Wright</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Preferred Date</label>
+                                <input type="date" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Time</label>
+                                <select class="form-input">
+                                    <option>Morning (8:00 - 12:00)</option>
+                                    <option>Afternoon (12:00 - 16:00)</option>
+                                    <option>Evening (16:00 - 20:00)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Reason for Visit</label>
+                            <select class="form-input">
+                                <option>Check-up / Physical</option>
+                                <option>Follow-up Visit</option>
+                                <option>New Symptom / Concern</option>
+                                <option>Lab Results Review</option>
+                                <option>Vaccination</option>
+                                <option>Prescription Refill</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Notes</label>
+                            <textarea class="form-input" rows="3" placeholder="Any additional information for the doctor..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-wrap" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                                <input type="checkbox" style="width:18px;height:18px;accent-color:var(--chambray)">
+                                <span style="font-size:0.85rem;font-weight:400;color:var(--clove-muted)">I agree to the <a href="#" style="color:var(--chambray);font-weight:600">cancellation policy</a></span>
+                            </label>
+                        </div>
+                        <button class="btn btn-primary btn-full" id="bookApptBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Confirm Appointment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Available Slots Today</h3>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size:0.85rem;color:var(--clove-muted);margin-bottom:16px">Select a time slot for your preferred date. Slots fill quickly — we recommend booking early.</p>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px">
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">8:00 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">8:30 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">9:00 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">9:30 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">10:00 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center;border-color:var(--chambray);background:var(--chambray-wash);color:var(--chambray)">10:30 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">11:00 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">11:30 AM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">1:00 PM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">1:30 PM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">2:00 PM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">2:30 PM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">3:00 PM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">3:30 PM</button>
+                            <button class="btn btn-outline btn-sm" style="justify-content:center">4:00 PM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Need Help?</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex;flex-direction:column;gap:14px">
+                            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
+                                <div style="width:36px;height:36px;border-radius:50%;background:var(--chambray-wash);display:flex;align-items:center;justify-content:center;color:var(--chambray);flex-shrink:0">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong style="font-size:0.85rem">Call Us</strong>
+                                    <p style="font-size:0.78rem;color:var(--clove-faint)">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
+                                <div style="width:36px;height:36px;border-radius:50%;background:var(--chambray-wash);display:flex;align-items:center;justify-content:center;color:var(--chambray);flex-shrink:0">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong style="font-size:0.85rem">Email Us</strong>
+                                    <p style="font-size:0.78rem;color:var(--clove-faint)">appointments@vitalis.hms</p>
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
+                                <div style="width:36px;height:36px;border-radius:50%;background:var(--chambray-wash);display:flex;align-items:center;justify-content:center;color:var(--chambray);flex-shrink:0">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <strong style="font-size:0.85rem">Visit Us</strong>
+                                    <p style="font-size:0.78rem;color:var(--clove-faint)">123 Healthcare Ave, Medical District</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+      document.getElementById('bookApptBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        var toast = document.createElement('div');
+        toast.className = 'toast toast-success';
+        toast.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Appointment request submitted! We\'ll confirm via email.';
+        document.getElementById('toastContainer').appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 4000);
+      });
+    </script>
+</body>
+</html>

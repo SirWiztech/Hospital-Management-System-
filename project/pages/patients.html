@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vitalis HMS — Patient Management" />
+  <title>Vitalis — Patients</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+</head>
+<body>
+  <header class="page-header">
+    <a href="../dashboard.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+      </svg>
+      Dashboard
+    </a>
+    <h1>Patients</h1>
+  </header>
+
+  <div class="page-content">
+    <div class="section-header">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <h2 class="gradient-text">Patient Directory</h2>
+          <p class="section-desc">View and manage all patient records</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div class="search-bar" style="max-width:280px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" placeholder="Search patients..." id="patientSearch">
+          </div>
+          <button class="btn btn-primary btn-sm" id="addPatientBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Patient
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card chambray-accent">
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number" id="totalPatients">1,284</span>
+          <span class="stat-label">Total Patients</span>
+        </div>
+      </div>
+      <div class="stat-card sage-accent">
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number" id="activePatients">847</span>
+          <span class="stat-label">Active Patients</span>
+        </div>
+      </div>
+      <div class="stat-card terra-accent">
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number" id="todayAdmissions">18</span>
+          <span class="stat-label">Today's Admissions</span>
+        </div>
+      </div>
+      <div class="stat-card red-accent">
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-number" id="criticalPatients">12</span>
+          <span class="stat-label">Critical Care</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body no-padding">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>ID</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Department</th>
+                <th>Room</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="patientsTable">
+              <tr>
+                <td><strong>Eleanor Vance</strong></td>
+                <td style="color:var(--clove-faint);font-size:0.78rem">P-00142</td>
+                <td>67</td>
+                <td>Female</td>
+                <td>Cardiology</td>
+                <td>302A</td>
+                <td><span class="badge badge-active"><span class="badge-dot"></span>Admitted</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline">View</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>James Carter</strong></td>
+                <td style="color:var(--clove-faint);font-size:0.78rem">P-00143</td>
+                <td>45</td>
+                <td>Male</td>
+                <td>Orthopedics</td>
+                <td>205B</td>
+                <td><span class="badge badge-active"><span class="badge-dot"></span>Admitted</span></td>
+                <td><button class="btn btn-sm btn-outline">View</button></td>
+              </tr>
+              <tr>
+                <td><strong>Maria Santos</strong></td>
+                <td style="color:var(--clove-faint);font-size:0.78rem">P-00144</td>
+                <td>52</td>
+                <td>Female</td>
+                <td>Neurology</td>
+                <td>410</td>
+                <td><span class="badge badge-pending"><span class="badge-dot"></span>Observation</span></td>
+                <td><button class="btn btn-sm btn-outline">View</button></td>
+              </tr>
+              <tr>
+                <td><strong>Robert Kim</strong></td>
+                <td style="color:var(--clove-faint);font-size:0.78rem">P-00145</td>
+                <td>34</td>
+                <td>Male</td>
+                <td>Emergency</td>
+                <td>108</td>
+                <td><span class="badge badge-pending"><span class="badge-dot"></span>In ER</span></td>
+                <td><button class="btn btn-sm btn-outline">View</button></td>
+              </tr>
+              <tr>
+                <td><strong>Amanda Foster</strong></td>
+                <td style="color:var(--clove-faint);font-size:0.78rem">P-00146</td>
+                <td>28</td>
+                <td>Female</td>
+                <td>Pediatrics</td>
+                <td>—</td>
+                <td><span class="badge badge-active"><span class="badge-dot"></span>Discharged Today</span></td>
+                <td><button class="btn btn-sm btn-outline">View</button></td>
+              </tr>
+              <tr>
+                <td><strong>David Chen</strong></td>
+                <td style="color:var(--clove-faint);font-size:0.78rem">P-00147</td>
+                <td>71</td>
+                <td>Male</td>
+                <td>Oncology</td>
+                <td>518</td>
+                <td><span class="badge badge-active"><span class="badge-dot"></span>Admitted</span></td>
+                <td><button class="btn btn-sm btn-outline">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    document.getElementById('addPatientBtn')?.addEventListener('click', function() {
+      var toast = document.createElement('div');
+      toast.className = 'toast toast-success';
+      toast.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> New patient registration form opened.';
+      document.getElementById('toastContainer').appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 3000);
+    });
+  </script>
+</body>
+</html>

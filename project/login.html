@@ -1,0 +1,687 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vitalis HMS — Secure Authentication Portal">
+    <meta name="theme-color" content="#7A9CB3">
+    <title>Vitalis — Secure Access Portal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='%237A9CB3'/><path d='M10 18h4l2-6 3 12 2-6h5' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+</head>
+
+<body>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Security Overlay (Idle Lock) -->
+    <div class="security-overlay" id="securityOverlay">
+        <div class="security-lock">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0110 0v4" />
+            </svg>
+        </div>
+        <h3 class="security-title">Session Locked</h3>
+        <p class="security-desc">You were idle for 5 minutes. Please sign in again to continue.</p>
+        <button class="btn btn-primary" id="unlockBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+            </svg>
+            Unlock Session
+        </button>
+    </div>
+
+    <!-- Main Auth Container -->
+    <div class="auth-container">
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="left-panel-bg"></div>
+            <div class="left-panel-content">
+                <div class="left-brand">
+                    <svg class="left-logo" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="38" height="38" rx="10" fill="url(#lgLeft)" />
+                        <path d="M10 20h4.5l2-7 3.5 14 2.5-7H28" stroke="white" stroke-width="2.4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <defs>
+                            <linearGradient id="lgLeft" x1="0" y1="0" x2="38" y2="38">
+                                <stop offset="0%" stop-color="#7A9CB3" />
+                                <stop offset="100%" stop-color="#5D8299" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="left-brand-text">Vital<em>is</em></span>
+                </div>
+
+                <h2 class="left-headline">Healthcare access,<br>secured.</h2>
+                <p class="left-desc">End-to-end encrypted authentication for every member of your care team. HIPAA
+                    compliant. Zero-knowledge architecture.</p>
+
+                <div class="left-roles" id="leftRoles">
+                    <div class="left-role-item active" data-role="doctor">
+                        <div class="left-role-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg></div>
+                        <div class="left-role-info"><strong>Physicians</strong><span>Full EHR access, prescribing,
+                                orders</span></div>
+                    </div>
+                    <div class="left-role-item" data-role="nurse">
+                        <div class="left-role-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                            </svg></div>
+                        <div class="left-role-info"><strong>Nursing Staff</strong><span>Patient monitoring, vitals, care
+                                plans</span></div>
+                    </div>
+                    <div class="left-role-item" data-role="patient">
+                        <div class="left-role-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                            </svg></div>
+                        <div class="left-role-info"><strong>Patients</strong><span>View records, book appointments,
+                                message</span></div>
+                    </div>
+                    <div class="left-role-item" data-role="receptionist">
+                        <div class="left-role-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg></div>
+                        <div class="left-role-info"><strong>Reception</strong><span>Scheduling, check-in,
+                                visitors</span></div>
+                    </div>
+                    <div class="left-role-item admin-left-item hidden" data-role="admin" id="adminLeftItem">
+                        <div class="left-role-icon admin-icon-bg"><svg width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+                            </svg></div>
+                        <div class="left-role-info"><strong>Administrators</strong><span>System config, users, audit
+                                logs</span></div>
+                    </div>
+                    <div class="left-role-item" data-role="guest">
+                        <div class="left-role-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path
+                                    d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                            </svg></div>
+                        <div class="left-role-info"><strong>Guests</strong><span>Limited portal, appointment
+                                requests</span></div>
+                    </div>
+                </div>
+
+                <div class="left-footer">
+                    <span>&copy; 2026 Vitalis</span>
+                    <span>HIPAA &middot; GDPR &middot; SOC 2</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+
+            <!-- ROLE SELECTOR VIEW -->
+            <div class="role-view active" id="roleView">
+                <div class="role-view-header">
+                    <h2 class="role-view-title">How will you be using Vitalis?</h2>
+                    <p class="role-view-desc">Select your role to continue. This determines your access level and
+                        available features.</p>
+                </div>
+
+                <div class="role-grid" id="roleGrid">
+                    <button class="role-card" data-role="doctor" data-form="staff">
+                        <div class="role-icon-wrap doctor-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg></div>
+                        <h3 class="role-card-name">Doctor</h3>
+                        <p class="role-card-desc">Full clinical access</p>
+                    </button>
+                    <button class="role-card" data-role="nurse" data-form="staff">
+                        <div class="role-icon-wrap nurse-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                            </svg></div>
+                        <h3 class="role-card-name">Nurse</h3>
+                        <p class="role-card-desc">Care delivery tools</p>
+                    </button>
+                    <button class="role-card" data-role="patient" data-form="patient">
+                        <div class="role-icon-wrap patient-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                            </svg></div>
+                        <h3 class="role-card-name">Patient</h3>
+                        <p class="role-card-desc">Personal health portal</p>
+                    </button>
+                    <button class="role-card" data-role="receptionist" data-form="staff">
+                        <div class="role-icon-wrap reception-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg></div>
+                        <h3 class="role-card-name">Receptionist</h3>
+                        <p class="role-card-desc">Front-desk operations</p>
+                    </button>
+                    <button class="role-card admin-role-card hidden" data-role="admin" data-form="admin"
+                        id="adminRoleCard">
+                        <div class="role-icon-wrap admin-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+                            </svg></div>
+                        <h3 class="role-card-name">Admin</h3>
+                        <p class="role-card-desc">System management</p>
+                    </button>
+                    <button class="role-card" data-role="guest" data-form="guest">
+                        <div class="role-icon-wrap guest-icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path
+                                    d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                            </svg></div>
+                        <h3 class="role-card-name">Guest</h3>
+                        <p class="role-card-desc">Limited browsing</p>
+                    </button>
+                </div>
+
+                <p class="role-view-footer">Not sure? <a href="#" class="role-guest-link" id="quickGuestLink">Continue
+                        as guest</a></p>
+            </div>
+
+            <!-- FORMS CONTAINER -->
+            <div class="forms-container" id="formsContainer">
+
+                <button class="form-back-btn" id="formBackBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <path d="M19 12H5" />
+                        <path d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to roles
+                </button>
+
+                <div class="form-panel-header">
+                    <div class="form-panel-brand">
+                        <svg width="28" height="28" viewBox="0 0 38 38" fill="none">
+                            <rect width="38" height="38" rx="10" fill="url(#lgForm)" />
+                            <path d="M10 20h4.5l2-7 3.5 14 2.5-7H28" stroke="white" stroke-width="2.4"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <defs>
+                                <linearGradient id="lgForm" x1="0" y1="0" x2="38" y2="38">
+                                    <stop offset="0%" stop-color="#7A9CB3" />
+                                    <stop offset="100%" stop-color="#5D8299" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span>Vital<em>is</em> <span id="formRoleLabel">Portal</span></span>
+                    </div>
+                    <div class="security-chip" id="formSecurityChip">
+                        <span class="chip-dot"></span>
+                        <span class="chip-text">Secure</span>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="form-tabs" id="formTabs">
+                    <button class="form-tab active" id="tabSignIn">Sign In</button>
+                    <button class="form-tab" id="tabSignUp">Register</button>
+                </div>
+
+                <!-- ADMIN LOCK SCREEN -->
+                <div class="admin-lock-screen hidden" id="adminLockScreen">
+                    <div class="admin-lock-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0110 0v4" />
+                        </svg></div>
+                    <h3 class="admin-lock-title">Admin Access Locked</h3>
+                    <p class="admin-lock-desc">Press <kbd>Alt</kbd> + <kbd>X</kbd> to authenticate and unlock admin
+                        credentials.</p>
+                    <div class="admin-lock-hint"><span class="hint-dot" id="adminHintDot"></span><span>Waiting for key
+                            combination...</span></div>
+                </div>
+
+                <!-- SIGN IN FORM -->
+                <form class="auth-form active" id="signInForm" novalidate>
+                    <div class="form-group">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            <input type="text" id="signInId" class="form-input" placeholder=" " required
+                                autocomplete="username">
+                            <label class="floating-label" for="signInId" id="signInIdLabel">Staff ID</label>
+                        </div>
+                        <span class="field-error" id="signInIdError"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0110 0v4" />
+                            </svg>
+                            <input type="password" id="signInPassword" class="form-input" placeholder=" " required
+                                autocomplete="current-password">
+                            <label class="floating-label" for="signInPassword">Password</label>
+                            <button type="button" class="toggle-password" id="toggleSignInPassword"
+                                aria-label="Toggle password">
+                                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="field-error" id="signInPasswordError"></span>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-wrap">
+                            <input type="checkbox" id="signInRemember">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-text">Remember this device</span>
+                        </label>
+                        <a href="#" class="form-link" id="forgotIdLink">Forgot ID?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" id="signInBtn">
+                        <span class="btn-text">Sign In</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                </form>
+
+                <!-- SIGN UP FORM -->
+                <form class="auth-form" id="signUpForm" novalidate>
+                    <div class="unique-id-banner">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                        <span>One-time registration. A unique hash ID will be generated for you.</span>
+                    </div>
+
+                    <!-- Profile Picture (Optional) -->
+                    <div class="avatar-upload" id="avatarUpload">
+                        <div class="avatar-preview" id="avatarPreview">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            <span>Upload Photo</span>
+                        </div>
+                        <input type="file" id="avatarInput" accept="image/*" hidden>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <div class="input-wrap">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                <input type="text" id="signUpFirstName" class="form-input" placeholder=" " required>
+                                <label class="floating-label" for="signUpFirstName">First Name</label>
+                            </div>
+                            <span class="field-error" id="signUpFirstNameError"></span>
+                        </div>
+                        <div class="form-group half">
+                            <div class="input-wrap">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                <input type="text" id="signUpLastName" class="form-input" placeholder=" " required>
+                                <label class="floating-label" for="signUpLastName">Last Name</label>
+                            </div>
+                            <span class="field-error" id="signUpLastNameError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            <input type="email" id="signUpEmail" class="form-input" placeholder=" " required>
+                            <label class="floating-label" for="signUpEmail">Email Address</label>
+                        </div>
+                        <span class="field-error" id="signUpEmailError"></span>
+                    </div>
+
+                    <!-- Dynamic: Department (staff) or DOB (patient) -->
+                    <div class="form-group" id="departmentGroup">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            <select id="departmentSelect" class="form-input form-select" required>
+                                <option value="" disabled selected></option>
+                                <option value="emergency">Emergency</option>
+                                <option value="cardiology">Cardiology</option>
+                                <option value="pediatrics">Pediatrics</option>
+                                <option value="orthopedics">Orthopedics</option>
+                                <option value="radiology">Radiology</option>
+                                <option value="surgery">Surgery</option>
+                                <option value="oncology">Oncology</option>
+                                <option value="neurology">Neurology</option>
+                                <option value="general">General Practice</option>
+                            </select>
+                            <label class="floating-label" for="departmentSelect" id="departmentLabel">Department</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden" id="dobGroup">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            <input type="date" id="dobInput" class="form-input" required>
+                            <label class="floating-label static" for="dobInput" id="dobLabel">Date of Birth</label>
+                        </div>
+                        <span class="field-error" id="dobError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0110 0v4" />
+                            </svg>
+                            <input type="password" id="signUpPassword" class="form-input" placeholder=" " required
+                                minlength="8">
+                            <label class="floating-label" for="signUpPassword">Create Password</label>
+                            <button type="button" class="toggle-password" id="toggleSignUpPassword"
+                                aria-label="Toggle password">
+                                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bars">
+                                <div class="strength-seg" id="seg1"></div>
+                                <div class="strength-seg" id="seg2"></div>
+                                <div class="strength-seg" id="seg3"></div>
+                                <div class="strength-seg" id="seg4"></div>
+                            </div>
+                            <div class="strength-right">
+                                <span class="strength-text" id="strengthText">Password strength</span>
+                                <button type="button" class="suggest-btn" id="suggestPasswordBtn"
+                                    title="Generate strong password">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <span class="field-error" id="signUpPasswordError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrap">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <input type="password" id="signUpConfirmPassword" class="form-input" placeholder=" "
+                                required>
+                            <label class="floating-label" for="signUpConfirmPassword">Confirm Password</label>
+                            <button type="button" class="toggle-password" id="toggleConfirmPassword"
+                                aria-label="Toggle password">
+                                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="field-error" id="signUpConfirmPasswordError"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="signUpBtn">
+                        <span class="btn-text">Generate Hash ID &amp; Register</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                </form>
+
+                <!-- Social Auth -->
+                <div class="google-auth-section">
+                    <div class="divider"><span>or continue with</span></div>
+                    <div class="social-btn-row">
+                        <button type="button" class="social-auth-btn google-auth-btn" id="googleAuthBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                    fill="#34A853" />
+                                <path
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                    fill="#FBBC05" />
+                                <path
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                    fill="#EA4335" />
+                            </svg>
+                            Google
+                        </button>
+                        <button type="button" class="social-auth-btn" id="facebookAuthBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                            Facebook
+                        </button>
+                        <button type="button" class="social-auth-btn" id="twitterAuthBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                            X
+                        </button>
+                    </div>
+                    <p class="social-disclaimer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                        OAuth 2.0 with PKCE verification. Your data stays encrypted.
+                    </p>
+                </div>
+            </div>
+
+            <!-- GUEST PANEL -->
+            <div class="guest-panel" id="guestPanel">
+                <button class="form-back-btn" id="guestBackBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <path d="M19 12H5" />
+                        <path d="M12 19l-7-7 7-7" />
+                    </svg>
+                    Back to roles
+                </button>
+                <div class="guest-content">
+                    <div class="guest-icon-large"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                        </svg></div>
+                    <h3 class="guest-title">Welcome, Visitor</h3>
+                    <p class="guest-desc">You have limited access to public hospital information. No account required.
+                    </p>
+                    <div class="guest-options">
+                        <a href="#" class="guest-option"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg><span>View Visiting Hours</span></a>
+                        <a href="#" class="guest-option"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg><span>Find a Department</span></a>
+                        <a href="#" class="guest-option"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                            </svg><span>Emergency Contacts</span></a>
+                    </div>
+                    <div class="guest-divider"><span>or</span></div>
+                    <p class="guest-cta">Need full access to your health records?</p>
+                    <button class="btn btn-outline btn-full" id="guestToRegister">Register as Patient</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card">
+            <div class="modal-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round">
+                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg></div>
+            <h3 class="modal-title">Registration Complete</h3>
+            <p class="modal-desc">Your account has been created. Save your unique hash ID — you'll need it every time
+                you sign in.</p>
+            <div class="unique-id-box">
+                <span class="unique-id-label">Your Unique Hash ID</span>
+                <div class="unique-id-value" id="uniqueIdValue">---</div>
+                <button class="copy-btn" id="copyIdBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" />
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                    </svg>
+                    <span>Copy</span>
+                </button>
+            </div>
+            <div class="redirect-timer" id="redirectTimer">Redirecting in <span id="redirectCountdown">10</span>s...
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary btn-full" id="modalContinue">Continue to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot ID Modal -->
+    <div class="modal-overlay" id="forgotModal">
+        <div class="modal-card modal-sm">
+            <div class="modal-icon modal-icon-info"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg></div>
+            <h3 class="modal-title">Recover Your ID</h3>
+            <p class="modal-desc">Enter the email you registered with. We'll send your hash ID to that address.</p>
+            <div class="form-group" style="margin-bottom:20px">
+                <div class="input-wrap">
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    <input type="email" id="forgotEmail" class="form-input" placeholder=" " required>
+                    <label class="floating-label" for="forgotEmail">Registered Email</label>
+                </div>
+                <span class="field-error" id="forgotEmailError"></span>
+            </div>
+            <div class="modal-actions" style="flex-direction:row;gap:10px">
+                <button class="btn btn-outline" id="forgotCancel" style="flex:1">Cancel</button>
+                <button class="btn btn-primary" id="forgotSubmitBtn" style="flex:1">Send ID</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Idle Indicator -->
+    <div class="idle-indicator" id="idleIndicator">
+        <div class="idle-ring">
+            <svg viewBox="0 0 36 36">
+                <path class="idle-track"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="idle-fill" id="idleFill"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <span class="idle-time" id="idleTime">5:00</span>
+        </div>
+    </div>
+    
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" 
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0&appId=YOUR_FACEBOOK_APP_ID&autoLogAppEvents=1">
+    </script>
+    <script src="assets/js/auth.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,894 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitalis — Admin Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin-dashboard.css">
+</head>
+
+<body>
+  <!-- Auth Gate -->
+  <div class="auth-gate hidden" id="authGate">
+    <div class="auth-card">
+      <div class="auth-icon">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <h2>Access Denied</h2>
+      <p>Admin privileges required to access this panel.</p>
+      <a href="index.html" class="btn btn-primary">Return to Login</a>
+    </div>
+  </div>
+
+  <!-- App Shell -->
+  <div class="app-shell hidden" id="appShell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <svg width="36" height="36" viewBox="0 0 38 38" fill="none">
+            <rect width="38" height="38" rx="10" fill="url(#adminGrad)"/>
+            <path d="M10 20h4.5l2-7 3.5 14 2.5-7H28" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="adminGrad" x1="0" y1="0" x2="38" y2="38">
+                <stop offset="0%" stop-color="#7A9CB3"/>
+                <stop offset="100%" stop-color="#5D8299"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <span class="brand-name">Vital<em>is</em></span>
+          <span class="brand-tagline">Hospital Management</span>
+        </div>
+      </div>
+
+      <div class="role-indicator">
+        <div class="role-pulse"></div>
+        <span>Administrator</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group-label">Main</div>
+        <button class="nav-item active" data-section="overview">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          <span>Command Center</span>
+        </button>
+        <button class="nav-item" data-section="users">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+          <span>User Governance</span>
+        </button>
+        <button class="nav-item" data-section="departments">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Departments</span>
+        </button>
+
+        <div class="nav-group-label">Insights</div>
+        <button class="nav-item" data-section="analytics">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Analytics</span>
+        </button>
+        <button class="nav-item" data-section="audit">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>Audit Trail</span>
+        </button>
+
+        <div class="nav-group-label">Oversight</div>
+        <button class="nav-item" data-section="live-view">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span>Live Dashboard View</span>
+          <span class="nav-badge">5</span>
+        </button>
+        <button class="nav-item" data-section="system">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+          </svg>
+          <span>System Config</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebarAvatar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="user-details">
+            <span class="user-name" id="adminName">Admin</span>
+            <span class="user-role">System Administrator</span>
+          </div>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="hamburger" id="hamburger">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+        <div class="search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" placeholder="Search users, departments, logs..." id="globalSearch">
+          <kbd class="search-kbd">⌘K</kbd>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="topbar-status">
+            <span class="status-dot online"></span>
+            <span>System Online</span>
+          </div>
+
+          <button class="icon-btn" id="notifBtn" aria-label="Notifications">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 01-3.46 0"/>
+            </svg>
+            <span class="badge-count" id="notifCount">5</span>
+          </button>
+
+          <button class="icon-btn" id="fullscreenBtn" aria-label="Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>
+            </svg>
+          </button>
+
+          <div class="topbar-divider"></div>
+
+          <div class="topbar-user" id="topbarUser">
+            <div class="mini-avatar" id="topbarAvatar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="topbar-user-info">
+              <span class="topbar-name" id="topbarName">Admin</span>
+              <span class="topbar-role">Administrator</span>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content" id="pageContent">
+        <!-- ==================== OVERVIEW ==================== -->
+        <div class="section active" id="overview">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">Command Center</h2>
+              <p class="section-desc">Real-time hospital operations overview</p>
+            </div>
+            <div class="header-actions">
+              <span class="live-indicator">
+                <span class="live-dot"></span>
+                Live
+              </span>
+              <button class="btn btn-outline btn-sm" id="refreshData">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+                </svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card chambray-accent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-number" id="totalUsers">0</span>
+                <span class="stat-label">Total Users</span>
+              </div>
+              <div class="stat-trend up">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="18 15 12 9 6 15"/>
+                </svg>
+                +15%
+              </div>
+            </div>
+
+            <div class="stat-card terra-accent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-number" id="activeDoctors">0</span>
+                <span class="stat-label">Active Doctors</span>
+              </div>
+              <div class="stat-trend up">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="18 15 12 9 6 15"/>
+                </svg>
+                +8%
+              </div>
+            </div>
+
+            <div class="stat-card sage-accent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-number" id="totalNurses">0</span>
+                <span class="stat-label">Nursing Staff</span>
+              </div>
+              <div class="stat-trend down">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+                -3%
+              </div>
+            </div>
+
+            <div class="stat-card sand-accent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-number" id="todayAppts">0</span>
+                <span class="stat-label">Today's Appointments</span>
+              </div>
+              <div class="stat-trend up">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="18 15 12 9 6 15"/>
+                </svg>
+                +12%
+              </div>
+            </div>
+
+            <div class="stat-card purple-accent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-number" id="totalDepts">0</span>
+                <span class="stat-label">Departments</span>
+              </div>
+            </div>
+
+            <div class="stat-card red-accent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <div class="stat-content">
+                <span class="stat-number" id="criticalAlerts">0</span>
+                <span class="stat-label">Critical Alerts</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="grid-2-1">
+            <div class="card">
+              <div class="card-header">
+                <h3>User Registrations</h3>
+                <select class="select-mini" id="regChartFilter">
+                  <option value="30">Last 30 Days</option>
+                  <option value="90">Last 90 Days</option>
+                  <option value="365">This Year</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" id="registrationChart"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Role Distribution</h3>
+              </div>
+              <div class="card-body">
+                <div class="donut-chart" id="roleChart"></div>
+                <div class="chart-legend" id="roleLegend"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions + Activity -->
+          <div class="grid-1-1">
+            <div class="card">
+              <div class="card-header">
+                <h3>Quick Actions</h3>
+              </div>
+              <div class="card-body">
+                <div class="quick-actions-grid">
+                  <button class="quick-action-btn" data-action="add-doctor">
+                    <div class="qa-icon" style="background: rgba(122,156,179,0.12); color: #7A9CB3;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                      </svg>
+                    </div>
+                    <span>Add Doctor</span>
+                  </button>
+                  <button class="quick-action-btn" data-action="add-nurse">
+                    <div class="qa-icon" style="background: rgba(123,174,127,0.12); color: #7BAE7F;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                      </svg>
+                    </div>
+                    <span>Add Nurse</span>
+                  </button>
+                  <button class="quick-action-btn" data-action="new-dept">
+                    <div class="qa-icon" style="background: rgba(173,117,86,0.12); color: #AD7556;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                      </svg>
+                    </div>
+                    <span>New Department</span>
+                  </button>
+                  <button class="quick-action-btn" data-action="generate-report">
+                    <div class="qa-icon" style="background: rgba(139,92,246,0.12); color: #8b5cf6;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                      </svg>
+                    </div>
+                    <span>Generate Report</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>System Activity</h3>
+                <a href="#" class="view-all" data-goto="audit">View All</a>
+              </div>
+              <div class="card-body no-padding">
+                <div class="activity-list" id="activityFeed"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== USERS ==================== -->
+        <div class="section" id="users">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">User Governance</h2>
+              <p class="section-desc">Manage all system users and permissions</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-primary btn-sm" id="addUserBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Add User
+              </button>
+              <select class="select-mini" id="roleFilter">
+                <option value="all">All Roles</option>
+                <option value="admin">Admins</option>
+                <option value="doctor">Doctors</option>
+                <option value="nurse">Nurses</option>
+                <option value="receptionist">Receptionists</option>
+                <option value="patient">Patients</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body no-padding">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Registered</th>
+                      <th>Last Active</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== DEPARTMENTS ==================== -->
+        <div class="section" id="departments">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">Departments</h2>
+              <p class="section-desc">Hospital department management and capacity</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-primary btn-sm" id="addDeptBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Add Department
+              </button>
+            </div>
+          </div>
+
+          <div class="dept-grid" id="deptGrid"></div>
+        </div>
+
+        <!-- ==================== ANALYTICS ==================== -->
+        <div class="section" id="analytics">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">Analytics</h2>
+              <p class="section-desc">System performance and usage metrics</p>
+            </div>
+            <div class="header-actions">
+              <select class="select-mini" id="analyticsPeriod">
+                <option value="month">This Month</option>
+                <option value="quarter">This Quarter</option>
+                <option value="year">This Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="stats-grid compact">
+            <div class="mini-stat">
+              <span class="mini-stat-value" id="avgLoginTime">2.4s</span>
+              <span class="mini-stat-label">Avg Login Time</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-value" id="peakConcurrent">87</span>
+              <span class="mini-stat-label">Peak Concurrent</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-value" id="errorRate">0.12%</span>
+              <span class="mini-stat-label">Error Rate</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-value" id="apiCalls">14.2K</span>
+              <span class="mini-stat-label">API Calls Today</span>
+            </div>
+          </div>
+
+          <div class="grid-2-1">
+            <div class="card">
+              <div class="card-header">
+                <h3>Monthly Active Users</h3>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" id="mauChart"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>System Health</h3>
+              </div>
+              <div class="card-body">
+                <div class="health-metrics" id="healthMetrics"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== AUDIT TRAIL ==================== -->
+        <div class="section" id="audit">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">Audit Trail</h2>
+              <p class="section-desc">Complete system activity log</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-outline btn-sm" id="exportAudit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Export
+              </button>
+              <select class="select-mini" id="auditFilter">
+                <option value="all">All Actions</option>
+                <option value="login">Logins</option>
+                <option value="register">Registrations</option>
+                <option value="admin">Admin Actions</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body no-padding">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Timestamp</th>
+                      <th>Action</th>
+                      <th>Details</th>
+                      <th>Role</th>
+                      <th>IP Address</th>
+                    </tr>
+                  </thead>
+                  <tbody id="auditTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== LIVE DASHBOARD VIEW ==================== -->
+        <div class="section" id="live-view">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">Live Dashboard View</h2>
+              <p class="section-desc">Real-time oversight of all active role dashboards</p>
+            </div>
+            <div class="header-actions">
+              <span class="live-indicator">
+                <span class="live-dot"></span>
+                Streaming
+              </span>
+            </div>
+          </div>
+
+          <div class="live-grid" id="liveGrid">
+            <!-- Doctor Preview -->
+            <div class="live-preview-card" data-role="doctor">
+              <div class="live-preview-header">
+                <div class="live-preview-role">
+                  <div class="role-chip" style="background: rgba(122,156,179,0.15); color: #7A9CB3;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    Doctors
+                  </div>
+                </div>
+                <div class="live-preview-status">
+                  <span class="status-dot online"></span>
+                  <span id="doctorOnlineCount">5 online</span>
+                </div>
+              </div>
+              <div class="live-preview-body">
+                <div class="live-metric-row">
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvDoctorAppts">18</span>
+                    <span class="live-metric-label">Active Appointments</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvDoctorPatients">42</span>
+                    <span class="live-metric-label">Patients Seen Today</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvDoctorPending">7</span>
+                    <span class="live-metric-label">Pending Reviews</span>
+                  </div>
+                </div>
+                <div class="live-mini-chart" id="doctorMiniChart"></div>
+              </div>
+              <div class="live-preview-footer">
+                <button class="btn btn-sm btn-outline" onclick="AdminDash.viewRoleDashboard('doctor')">Open Full View</button>
+              </div>
+            </div>
+
+            <!-- Nurse Preview -->
+            <div class="live-preview-card" data-role="nurse">
+              <div class="live-preview-header">
+                <div class="live-preview-role">
+                  <div class="role-chip" style="background: rgba(123,174,127,0.15); color: #7BAE7F;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                    </svg>
+                    Nurses
+                  </div>
+                </div>
+                <div class="live-preview-status">
+                  <span class="status-dot online"></span>
+                  <span id="nurseOnlineCount">8 online</span>
+                </div>
+              </div>
+              <div class="live-preview-body">
+                <div class="live-metric-row">
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvNurseTasks">23</span>
+                    <span class="live-metric-label">Active Tasks</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvNurseVitals">56</span>
+                    <span class="live-metric-label">Vitals Recorded</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvNurseAlerts">3</span>
+                    <span class="live-metric-label">Critical Alerts</span>
+                  </div>
+                </div>
+                <div class="live-mini-chart" id="nurseMiniChart"></div>
+              </div>
+              <div class="live-preview-footer">
+                <button class="btn btn-sm btn-outline" onclick="AdminDash.viewRoleDashboard('nurse')">Open Full View</button>
+              </div>
+            </div>
+
+            <!-- Receptionist Preview -->
+            <div class="live-preview-card" data-role="receptionist">
+              <div class="live-preview-header">
+                <div class="live-preview-role">
+                  <div class="role-chip" style="background: rgba(220,207,184,0.25); color: #8B7E5A;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                      <line x1="8" y1="21" x2="16" y2="21"/>
+                      <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    Reception
+                  </div>
+                </div>
+                <div class="live-preview-status">
+                  <span class="status-dot online"></span>
+                  <span id="recepOnlineCount">3 online</span>
+                </div>
+              </div>
+              <div class="live-preview-body">
+                <div class="live-metric-row">
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvRecepCheckins">14</span>
+                    <span class="live-metric-label">Today's Check-ins</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvRecepScheduled">28</span>
+                    <span class="live-metric-label">Scheduled</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvRecepWaiting">6</span>
+                    <span class="live-metric-label">In Waiting Room</span>
+                  </div>
+                </div>
+                <div class="live-mini-chart" id="recepMiniChart"></div>
+              </div>
+              <div class="live-preview-footer">
+                <button class="btn btn-sm btn-outline" onclick="AdminDash.viewRoleDashboard('receptionist')">Open Full View</button>
+              </div>
+            </div>
+
+            <!-- Patient Preview -->
+            <div class="live-preview-card" data-role="patient">
+              <div class="live-preview-header">
+                <div class="live-preview-role">
+                  <div class="role-chip" style="background: rgba(139,92,246,0.15); color: #8b5cf6;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Patients
+                  </div>
+                </div>
+                <div class="live-preview-status">
+                  <span class="status-dot online"></span>
+                  <span id="patientOnlineCount">19 online</span>
+                </div>
+              </div>
+              <div class="live-preview-body">
+                <div class="live-metric-row">
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvPatientActive">31</span>
+                    <span class="live-metric-label">Active Portals</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvPatientAppts">12</span>
+                    <span class="live-metric-label">Upcoming Appts</span>
+                  </div>
+                  <div class="live-metric">
+                    <span class="live-metric-value" id="lvPatientMessages">8</span>
+                    <span class="live-metric-label">Unread Messages</span>
+                  </div>
+                </div>
+                <div class="live-mini-chart" id="patientMiniChart"></div>
+              </div>
+              <div class="live-preview-footer">
+                <button class="btn btn-sm btn-outline" onclick="AdminDash.viewRoleDashboard('patient')">Open Full View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== SYSTEM CONFIG ==================== -->
+        <div class="section" id="system">
+          <div class="section-header">
+            <div>
+              <h2 class="gradient-text">System Configuration</h2>
+              <p class="section-desc">Global system settings and preferences</p>
+            </div>
+          </div>
+
+          <div class="grid-2-1">
+            <div class="card">
+              <div class="card-header">
+                <h3>General Settings</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Hospital Name</label>
+                  <input type="text" class="form-input" id="hospitalName" value="Vitalis General Hospital">
+                </div>
+                <div class="form-group">
+                  <label>Session Timeout (minutes)</label>
+                  <input type="number" class="form-input" id="sessionTimeout" value="30" min="5" max="120">
+                </div>
+                <div class="form-group">
+                  <label>Max Login Attempts</label>
+                  <input type="number" class="form-input" id="maxAttempts" value="5" min="3" max="10">
+                </div>
+                <div class="form-group">
+                  <label>Default Timezone</label>
+                  <select class="form-input" id="timezone">
+                    <option value="UTC">UTC</option>
+                    <option value="EST" selected>Eastern (EST)</option>
+                    <option value="CST">Central (CST)</option>
+                    <option value="MST">Mountain (MST)</option>
+                    <option value="PST">Pacific (PST)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="toggle-label">
+                    <span>Enable Email Notifications</span>
+                    <div class="toggle-switch">
+                      <input type="checkbox" id="emailNotifs" checked>
+                      <span class="toggle-slider"></span>
+                    </div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="toggle-label">
+                    <span>Maintenance Mode</span>
+                    <div class="toggle-switch">
+                      <input type="checkbox" id="maintenanceMode">
+                      <span class="toggle-slider"></span>
+                    </div>
+                  </label>
+                </div>
+                <button class="btn btn-primary" id="saveSettings">Save Settings</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>System Info</h3>
+              </div>
+              <div class="card-body">
+                <div class="info-list" id="systemInfo"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Notification Panel -->
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-header">
+        <h3>Notifications</h3>
+        <div class="notif-header-actions">
+          <button class="btn btn-xs btn-outline" id="markAllRead">Mark all read</button>
+          <button class="close-btn" id="closeNotif">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="notif-body" id="notifBody"></div>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div class="modal-overlay" id="userModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modalUserName">User Details</h3>
+          <button class="close-btn" id="closeModal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer">
+          <button class="btn btn-outline btn-sm" id="closeModalBtn">Close</button>
+          <button class="btn btn-primary btn-sm" id="modalActionBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+  </div>
+
+  <script src="assets/js/admin-dashboard.js"></script>
+</body>
+
+</html>

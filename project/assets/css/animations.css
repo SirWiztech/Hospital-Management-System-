@@ -1,0 +1,169 @@
+﻿/* ============================================
+   Vitalis HMS — Animations & Transitions
+   ============================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-44px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(44px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+.reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.stagger > *:nth-child(1) { transition-delay: 0s; }
+.stagger > *:nth-child(2) { transition-delay: 0.07s; }
+.stagger > *:nth-child(3) { transition-delay: 0.14s; }
+.stagger > *:nth-child(4) { transition-delay: 0.21s; }
+.stagger > *:nth-child(5) { transition-delay: 0.28s; }
+.stagger > *:nth-child(6) { transition-delay: 0.35s; }
+.stagger > *:nth-child(7) { transition-delay: 0.42s; }
+.stagger > *:nth-child(8) { transition-delay: 0.49s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1.5deg); }
+}
+
+@keyframes heartbeat-glow {
+    0%, 100% { filter: drop-shadow(0 0 3px var(--chambray-glow)); }
+    50% { filter: drop-shadow(0 0 10px var(--chambray-glow)); }
+}
+
+@keyframes blob-morph {
+    0%, 100% { border-radius: 42% 58% 62% 38% / 46% 52% 48% 54%; }
+    25% { border-radius: 52% 48% 38% 62% / 58% 42% 56% 44%; }
+    50% { border-radius: 38% 62% 52% 48% / 44% 58% 42% 56%; }
+    75% { border-radius: 58% 42% 48% 52% / 52% 48% 62% 38%; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(0.85); opacity: 0.5; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes line-draw {
+    from { stroke-dashoffset: 50; }
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@keyframes particle-float {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(90vh) translateX(10px) scale(1);
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-10vh) translateX(-20px) scale(0.3);
+        opacity: 0;
+    }
+}
+
+@keyframes kenburns-1 {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.12) translate(-1.5%, -1%); }
+}
+
+@keyframes kenburns-2 {
+    0% { transform: scale(1.08) translate(-1%, 0); }
+    100% { transform: scale(1) translate(1%, -0.5%); }
+}
+
+@keyframes kenburns-3 {
+    0% { transform: scale(1) translate(1%, -1%); }
+    100% { transform: scale(1.1) translate(-0.5%, 0.5%); }
+}
+
+@keyframes kenburns-4 {
+    0% { transform: scale(1.05) translate(-0.5%, 1%); }
+    100% { transform: scale(1) translate(0.5%, -0.5%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .reveal, .reveal-left, .reveal-right, .reveal-scale {
+        opacity: 1;
+        transform: none;
+    }
+    html { scroll-behavior: auto; }
+}
